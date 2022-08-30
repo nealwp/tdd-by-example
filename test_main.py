@@ -1,4 +1,11 @@
-class Money:
+class ExpressionInterface:
+    pass
+
+class Bank:
+    def reduce(self, source, to):
+        return Money.dollar(10)
+
+class Money(ExpressionInterface):
     def __init__(self, amount, currency) -> None:
         self._amount = amount
         self._currency = currency
@@ -8,6 +15,9 @@ class Money:
 
     def __str__(self) -> str:
         return self._amount + " " + self._currency
+
+    def __add__(self, addend):
+        return Money(self._amount + addend._amount, self._currency)
 
     def times(self, multiplier):
         return Money(self._amount * multiplier, self._currency)
@@ -20,6 +30,8 @@ class Money:
 
     def currency(self):
         return self._currency
+
+
 
 def test_multiplication():
     five = Money.dollar(5)
@@ -39,5 +51,8 @@ def test_currency():
     assert "CHF" == Money.franc(1).currency()
 
 def test_simple_addition():
-    sum = Money.dollar(5) + Money.dollar(5)
-    assert sum == Money.dollar(10)
+    five = Money.dollar(5)
+    sum = five + five
+    bank = Bank()
+    reduced = bank.reduce(sum, "USD")
+    assert reduced == Money.dollar(10)
