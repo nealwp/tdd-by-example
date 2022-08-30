@@ -1,22 +1,19 @@
-class Dollar:
+class Money:
     def __init__(self, amount) -> None:
         self._amount = amount
+
+    def __eq__(self, __o: object) -> bool:
+        return self._amount == __o._amount
+
+class Dollar(Money):
     
     def times(self, multiplier):
         return Dollar(self._amount * multiplier)
 
-    def __eq__(self, __o: object) -> bool:
-        return self._amount == __o._amount
-
-class Franc:
-    def __init__(self, amount) -> None:
-        self._amount = amount
+class Franc(Money):
 
     def times(self, multiplier):
         return Franc(self._amount * multiplier)
-
-    def __eq__(self, __o: object) -> bool:
-        return self._amount == __o._amount
 
 def test_multiplication():
     five = Dollar(5)
@@ -31,3 +28,5 @@ def test_franc_multiplication():
 def test_equality():
     assert Dollar(5) == Dollar(5)
     assert not Dollar(5) == Dollar(6)
+    assert Franc(5) == Franc(5)
+    assert not Franc(5) == Franc(6)
