@@ -1,9 +1,18 @@
 class Bank:
+    _rates = {}
+
     def reduce(self, source, to: str):
         return source.reduce(self, to)
 
     def rate(self, conv_from: str, conv_to: str):
-        return 2 if conv_from == "CHF" and conv_to == "USD" else 1
+        if (conv_from == conv_to):
+            return 1
+        rate = self._rates[Pair(conv_from, conv_to).hash_code()]
+        return rate
+
+    def add_rate(self, conv_from, conv_to, rate):
+        pair = Pair(conv_from, conv_to)
+        self._rates[pair.hash_code()] = rate
 
 class Expression:
     pass
@@ -45,4 +54,15 @@ class Sum(Expression):
 
     def reduce(self, bank, to):
         amount = self._augend._amount + self._addend._amount
-        return Money(amount, to) 
+        return Money(amount, to)
+
+class Pair:
+    def __init__(self, conv_from, conv_to) -> None:
+         self._from = conv_from
+         self._to = conv_to
+
+    def __eq__(self, __o: object) -> bool:
+        return self._from == __o._from and self._to == __o.to
+
+    def hash_code(self):
+        return 0
