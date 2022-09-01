@@ -1,3 +1,6 @@
+from functools import reduce
+
+
 class Bank:
     _rates = {}
 
@@ -53,7 +56,8 @@ class Sum(Expression):
        self._addend = addend
 
     def reduce(self, bank, to):
-        amount = self._augend._amount + self._addend._amount
+        amount = self._augend.reduce(bank, to)._amount 
+        + self._addend.reduce(bank, to)._amount
         return Money(amount, to)
 
 class Pair:
