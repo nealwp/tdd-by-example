@@ -45,15 +45,4 @@ class Sum(Expression):
 
     def reduce(self, bank, to):
         amount = self._augend._amount + self._addend._amount
-        return Money(amount, to)
-
-class Pair:
-    def __init__(self, conv_from, conv_to) -> None:
-         self._from = conv_from
-         self._to = conv_to
-
-    def __eq__(self, __o: object) -> bool:
-        return self._from == __o._from and self._to == __o.to
-
-    def hash_code(self):
-        return 0
+        return Money(amount, to) 
