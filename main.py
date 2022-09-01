@@ -1,9 +1,17 @@
 class Bank:
+
+    _rates = {}
+
     def reduce(self, source, to: str):
         return source.reduce(self, to)
 
+    def add_rate(self, conv_from, conv_to, rate):
+        self._rates[(conv_from, conv_to)] = rate
+
     def rate(self, conv_from: str, conv_to: str):
-        return 2 if conv_from == "CHF" and conv_to == "USD" else 1
+        if conv_from == conv_to:
+            return 1
+        return self._rates[(conv_from, conv_to)]
 
 class Expression:
     pass
@@ -20,7 +28,13 @@ class Money(Expression):
         return self._amount + " " + self._currency
 
     def __add__(self, addend):
-        return Sum(self._amount, addend._amount, self._currency)
+        return Sum(self._amount, addend._amount)
+
+    def __repr__(self) -> str:
+        return f"Money({self._amount} {self._currency})"
+
+    def plus(self, addend):
+        return Sum(self, addend)
 
     def times(self, multiplier):
         return Money(self._amount * multiplier, self._currency)
@@ -36,13 +50,19 @@ class Money(Expression):
 
     def reduce(self, bank: Bank, to: str):
         rate = bank.rate(self._currency, to)
-        return Money(self._amount / rate, to)
+        return Money((self._amount / rate), to)
 
 class Sum(Expression):
     def __init__(self, augend: Money, addend: Money) -> None:
        self._augend = augend
        self._addend = addend
 
-    def reduce(self, bank, to):
-        amount = self._augend._amount + self._addend._amount
-        return Money(amount, to) 
+    def reduce(self, bank: Bank, to: str):
+        amount = (self._augend.reduce(bank, to)._amount) + (self._addend.reduce(bank, to)._amount)
+        return Money(amount, to)
+
+    def plus(self, addend):
+        return Sum(self, addend)
+    
+    def times(self, multiplier):
+        return Sum(self._augend.times(multiplier), self._addend.times(multiplier))

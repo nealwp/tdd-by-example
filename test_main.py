@@ -46,3 +46,33 @@ def test_reduce_money_different_currency():
     bank.add_rate("CHF", "USD", 2)
     result = bank.reduce(Money.franc(2), "USD")
     assert Money.dollar(1) == result
+
+def test_mixed_addition():
+    five_bucks = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    result = bank.reduce(five_bucks.plus(ten_francs), "USD")
+    assert Money.dollar(10) == result
+
+def test_sum_plus_money():
+    five_bucks = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    sum = Sum(five_bucks, ten_francs).plus(five_bucks)
+    result = bank.reduce(sum, "USD")
+    assert Money.dollar(15) == result
+
+def test_sum_times():
+    five_bucks = Money.dollar(5)
+    ten_francs = Money.franc(10)
+    bank = Bank()
+    bank.add_rate("CHF", "USD", 2)
+    sum = Sum(five_bucks, ten_francs).times(2)
+    result = bank.reduce(sum, "USD")
+    assert Money.dollar(20) == result
+
+def test_plus_same_currency_returns_money():
+    sum = Money.dollar(1).plus(Money.dollar(1))
+    assert type(sum) == Money
