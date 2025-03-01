@@ -22,14 +22,10 @@ func (b BaseMoney) Equals(other Money) bool {
 	return b.amount == other.GetAmount()
 }
 
+func (b BaseMoney) Times(multiplier int) Money {
+	return BaseMoney{b.amount * multiplier, b.currency}
+}
+
 type Dollar struct{ BaseMoney }
 
-func (d Dollar) Times(multiplier int) Money {
-	return Dollar{BaseMoney{d.amount * multiplier, d.currency}}
-}
-
 type Franc struct{ BaseMoney }
-
-func (f Franc) Times(multiplier int) Money {
-	return Franc{BaseMoney{f.amount * multiplier, f.currency}}
-}
