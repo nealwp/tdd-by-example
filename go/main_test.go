@@ -29,9 +29,9 @@ func assertFalse(t *testing.T, r bool) {
 }
 
 func TestMultiplication(t *testing.T) {
-	five := Dollar{BaseMoney{5}}
-	assertEquals(t, Dollar{BaseMoney{10}}, five.Times(2))
-	assertEquals(t, Dollar{BaseMoney{15}}, five.Times(3))
+	five := Money{}.Dollar(5)
+	assertEquals(t, Money{}.Dollar(10), five.Times(2))
+	assertEquals(t, Money{}.Dollar(15), five.Times(3))
 }
 
 func TestEquality(t *testing.T) {
