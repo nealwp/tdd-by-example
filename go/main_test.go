@@ -4,6 +4,7 @@ import "testing"
 
 type Comparable[T any] interface {
 	Equals(obj T) bool
+	GetAmount() int
 }
 
 func assertEquals[T Comparable[T]](t *testing.T, expected Comparable[T], got T) {
@@ -28,19 +29,22 @@ func assertFalse(t *testing.T, r bool) {
 }
 
 func TestMultiplication(t *testing.T) {
-	five := Dollar{5}
-	assertEquals(t, Dollar{10}, five.Times(2))
-	assertEquals(t, Dollar{15}, five.Times(3))
+	five := Dollar{BaseMoney{5}}
+	assertEquals(t, Dollar{BaseMoney{10}}, five.Times(2))
+	assertEquals(t, Dollar{BaseMoney{15}}, five.Times(3))
 }
 
 func TestEquality(t *testing.T) {
-	dollar := Dollar{5}
-	assertTrue(t, dollar.Equals(Dollar{5}))
-	assertFalse(t, dollar.Equals(Dollar{6}))
+	df := Dollar{BaseMoney{5}}
+	assertTrue(t, df.Equals(Dollar{BaseMoney{5}}))
+	assertFalse(t, df.Equals(Dollar{BaseMoney{6}}))
+	ff := Franc{BaseMoney{5}}
+	assertTrue(t, ff.Equals(Franc{BaseMoney{5}}))
+	assertFalse(t, ff.Equals(Franc{BaseMoney{6}}))
 }
 
 func TestFrancMultiplication(t *testing.T) {
-	five := Franc{5}
-	assertEquals(t, Franc{10}, five.Times(2))
-	assertEquals(t, Franc{15}, five.Times(3))
+	five := Franc{BaseMoney{5}}
+	assertEquals(t, Franc{BaseMoney{10}}, five.Times(2))
+	assertEquals(t, Franc{BaseMoney{15}}, five.Times(3))
 }

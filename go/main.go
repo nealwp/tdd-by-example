@@ -1,21 +1,32 @@
 package main
 
-type Dollar struct{ amount int }
-
-func (d Dollar) Times(multiplier int) Dollar {
-	return Dollar{d.amount * multiplier}
+type Money interface {
+	Equals(other Money) bool
+	GetAmount() int
 }
 
-func (d Dollar) Equals(dollar Dollar) bool {
-	return d.amount == dollar.amount
+type BaseMoney struct{ amount int }
+
+func (b BaseMoney) GetAmount() int {
+	return b.amount
 }
 
-type Franc struct{ amount int }
-
-func (d Franc) Times(multiplier int) Franc {
-	return Franc{d.amount * multiplier}
+func (b BaseMoney) Times(multiplier int) BaseMoney {
+	return BaseMoney{b.amount * multiplier}
 }
 
-func (d Franc) Equals(dollar Franc) bool {
-	return d.amount == dollar.amount
+func (b BaseMoney) Equals(other Money) bool {
+	return b.amount == other.GetAmount()
+}
+
+type Dollar struct{ BaseMoney }
+
+func (d Dollar) Times(multiplier int) Money {
+	return Dollar{BaseMoney{d.amount * multiplier}}
+}
+
+type Franc struct{ BaseMoney }
+
+func (f Franc) Times(multiplier int) Money {
+	return Franc{BaseMoney{f.amount * multiplier}}
 }
