@@ -14,6 +14,12 @@ func assertTrue(t *testing.T, r bool) {
 	}
 }
 
+func assertFalse(t *testing.T, r bool) {
+	if r {
+		t.Error("expected false, got true")
+	}
+}
+
 func TestMultiplication(t *testing.T) {
 	five := Dollar{5}
 	product := five.Times(2)
@@ -25,4 +31,5 @@ func TestMultiplication(t *testing.T) {
 func TestEquality(t *testing.T) {
 	dollar := Dollar{5}
 	assertTrue(t, dollar.Equals(Dollar{5}))
+	assertFalse(t, dollar.Equals(Dollar{6}))
 }
