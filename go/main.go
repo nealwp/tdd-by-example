@@ -1,50 +1,35 @@
 package main
 
-type IMoney interface {
-	Equals(other IMoney) bool
+type Money interface {
+	Equals(other Money) bool
 	GetAmount() int
 }
 
-type BaseMoney struct{ amount int }
+type BaseMoney struct {
+	amount   int
+	currency string
+}
 
 func (b BaseMoney) GetAmount() int {
 	return b.amount
 }
 
-func (b BaseMoney) Times(multiplier int) BaseMoney {
-	return BaseMoney{b.amount * multiplier}
+func (b BaseMoney) GetCurrency() string {
+	return b.currency
 }
 
-type Money struct{}
-
-func (Money) Dollar(amount int) Dollar {
-	return Dollar{BaseMoney{amount: amount}}
-}
-
-func (Money) Franc(amount int) Franc {
-	return Franc{BaseMoney{amount: amount}}
-}
-
-func (b BaseMoney) Equals(other IMoney) bool {
+func (b BaseMoney) Equals(other Money) bool {
 	return b.amount == other.GetAmount()
 }
 
 type Dollar struct{ BaseMoney }
 
-func (d Dollar) Times(multiplier int) IMoney {
-	return Dollar{BaseMoney{d.amount * multiplier}}
-}
-
-func (Dollar) Currency() string {
-	return "USD"
+func (d Dollar) Times(multiplier int) Money {
+	return Dollar{BaseMoney{d.amount * multiplier, d.currency}}
 }
 
 type Franc struct{ BaseMoney }
 
-func (f Franc) Times(multiplier int) IMoney {
-	return Franc{BaseMoney{f.amount * multiplier}}
-}
-
-func (Franc) Currency() string {
-	return "CHF"
+func (f Franc) Times(multiplier int) Money {
+	return Franc{BaseMoney{f.amount * multiplier, f.currency}}
 }
