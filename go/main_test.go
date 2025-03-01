@@ -14,6 +14,13 @@ func assertEquals[T Comparable[T]](t *testing.T, expected Comparable[T], got T) 
 	}
 }
 
+func assertStringEquals[T string](t *testing.T, expected, got T) {
+	t.Helper()
+	if expected != got {
+		t.Errorf("expected: %v, got: %v", expected, got)
+	}
+}
+
 func assertTrue(t *testing.T, r bool) {
 	t.Helper()
 	if !r {
@@ -47,4 +54,9 @@ func TestFrancMultiplication(t *testing.T) {
 	five := Money{}.Franc(5)
 	assertEquals(t, Money{}.Franc(10), five.Times(2))
 	assertEquals(t, Money{}.Franc(15), five.Times(3))
+}
+
+func TestCurrency(t *testing.T) {
+	assertStringEquals(t, "USD", Money{}.Dollar(5).Currency())
+	assertStringEquals(t, "CHF", Money{}.Franc(5).Currency())
 }

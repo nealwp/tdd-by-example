@@ -35,8 +35,16 @@ func (d Dollar) Times(multiplier int) IMoney {
 	return Dollar{BaseMoney{d.amount * multiplier}}
 }
 
+func (Dollar) Currency() string {
+	return "USD"
+}
+
 type Franc struct{ BaseMoney }
 
 func (f Franc) Times(multiplier int) IMoney {
 	return Franc{BaseMoney{f.amount * multiplier}}
+}
+
+func (Franc) Currency() string {
+	return "CHF"
 }
