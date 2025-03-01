@@ -7,18 +7,21 @@ type Comparable interface {
 }
 
 func assertEquals(t *testing.T, expected Comparable, got Dollar) {
+	t.Helper()
 	if !expected.Equals(got) {
 		t.Errorf("expected: %v, got: %v", expected, got)
 	}
 }
 
 func assertTrue(t *testing.T, r bool) {
+	t.Helper()
 	if !r {
 		t.Error("expected true, got false")
 	}
 }
 
 func assertFalse(t *testing.T, r bool) {
+	t.Helper()
 	if r {
 		t.Error("expected false, got true")
 	}
