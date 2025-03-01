@@ -44,7 +44,7 @@ func TestEquality(t *testing.T) {
 }
 
 func TestFrancMultiplication(t *testing.T) {
-	five := Franc{BaseMoney{5}}
-	assertEquals(t, Franc{BaseMoney{10}}, five.Times(2))
-	assertEquals(t, Franc{BaseMoney{15}}, five.Times(3))
+	five := Money{}.Franc(5)
+	assertEquals(t, Money{}.Franc(10), five.Times(2))
+	assertEquals(t, Money{}.Franc(15), five.Times(3))
 }
