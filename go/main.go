@@ -17,8 +17,12 @@ func (b BaseMoney) Times(multiplier int) BaseMoney {
 
 type Money struct{}
 
-func (b Money) Dollar(amount int) Dollar {
+func (Money) Dollar(amount int) Dollar {
 	return Dollar{BaseMoney{amount: amount}}
+}
+
+func (Money) Franc(amount int) Franc {
+	return Franc{BaseMoney{amount: amount}}
 }
 
 func (b BaseMoney) Equals(other IMoney) bool {

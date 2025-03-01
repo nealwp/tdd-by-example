@@ -38,9 +38,9 @@ func TestEquality(t *testing.T) {
 	df := Money{}.Dollar(5)
 	assertTrue(t, df.Equals(Money{}.Dollar(5)))
 	assertFalse(t, df.Equals(Money{}.Dollar(6)))
-	ff := Franc{BaseMoney{5}}
-	assertTrue(t, ff.Equals(Franc{BaseMoney{5}}))
-	assertFalse(t, ff.Equals(Franc{BaseMoney{6}}))
+	ff := Money{}.Franc(5)
+	assertTrue(t, ff.Equals(Money{}.Franc(5)))
+	assertFalse(t, ff.Equals(Money{}.Franc(6)))
 }
 
 func TestFrancMultiplication(t *testing.T) {
