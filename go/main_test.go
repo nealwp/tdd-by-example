@@ -2,11 +2,11 @@ package main
 
 import "testing"
 
-type Comparable interface {
-	Equals(obj Dollar) bool
+type Comparable[T any] interface {
+	Equals(obj T) bool
 }
 
-func assertEquals(t *testing.T, expected Comparable, got Dollar) {
+func assertEquals[T Comparable[T]](t *testing.T, expected Comparable[T], got T) {
 	t.Helper()
 	if !expected.Equals(got) {
 		t.Errorf("expected: %v, got: %v", expected, got)
@@ -37,4 +37,10 @@ func TestEquality(t *testing.T) {
 	dollar := Dollar{5}
 	assertTrue(t, dollar.Equals(Dollar{5}))
 	assertFalse(t, dollar.Equals(Dollar{6}))
+}
+
+func TestFrancMultiplication(t *testing.T) {
+	five := Franc{5}
+	assertEquals(t, Franc{10}, five.Times(2))
+	assertEquals(t, Franc{15}, five.Times(3))
 }
