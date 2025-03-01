@@ -2,10 +2,14 @@ package main
 
 import "testing"
 
+func assertEquals(t *testing.T, got int, expected int) {
+	if got != expected {
+		t.Errorf("expected: %v, got: %v", expected, got)
+	}
+}
+
 func TestMultiplication(t *testing.T) {
 	five := Dollar{5}
 	five.times(2)
-	if five.amount != 10 {
-		t.Errorf("expected: 10, got: %v", five.amount)
-	}
+	assertEquals(t, 10, five.amount)
 }
