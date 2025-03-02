@@ -67,6 +67,8 @@ func TestCurrency(t *testing.T) {
 
 func TestSimpleAddition(t *testing.T) {
 	five := Money{}.Dollar(5)
-	sum := five.Plus(Money{}.Dollar(5))
-	assertEquals(t, Money{}.Dollar(10), sum)
+	sum := five.Plus(five)
+	bank := Bank{}
+	reduced := bank.Reduce(sum, "USD")
+	assertEquals(t, Money{}.Dollar(10), reduced)
 }

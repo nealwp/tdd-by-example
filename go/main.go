@@ -40,3 +40,10 @@ func (Money) Dollar(amount int) Money {
 func (Money) Franc(amount int) Money {
 	return Money{amount: amount, currency: "CHF"}
 }
+
+type Bank struct {
+}
+
+func (Bank) Reduce(source Money, to string) Money {
+	return Money{}.Dollar(10)
+}
