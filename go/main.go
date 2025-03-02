@@ -40,14 +40,14 @@ func (Money) Franc(amount int) Money {
 }
 
 func (m Money) Reduce(bank *Bank, to string) Money {
-	return Money{}.Dollar(10)
+	return m
 }
 
 type Bank struct {
 }
 
-func (Bank) Reduce(source Expression, to string) Money {
-	return Money{}.Dollar(10)
+func (b *Bank) Reduce(source Expression, to string) Money {
+	return source.Reduce(b, to)
 }
 
 type Sum struct {
