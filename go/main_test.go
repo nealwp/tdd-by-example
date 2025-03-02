@@ -36,15 +36,15 @@ func assertFalse(t *testing.T, r bool) {
 }
 
 func TestMultiplication(t *testing.T) {
-	five := Money{amount: 5, currency: "USD"}
-	assertEquals(t, Money{amount: 10, currency: "USD"}, five.Times(2))
-	assertEquals(t, Money{amount: 15, currency: "USD"}, five.Times(3))
+	five := Money{}.Dollar(5)
+	assertEquals(t, Money{}.Dollar(10), five.Times(2))
+	assertEquals(t, Money{}.Dollar(15), five.Times(3))
 }
 
 func TestEquality(t *testing.T) {
-	df := Money{amount: 5, currency: "USD"}
-	assertTrue(t, df.Equals(Money{amount: 5, currency: "USD"}))
-	assertFalse(t, df.Equals(Money{amount: 6, currency: "USD"}))
+	df := Money{}.Dollar(5)
+	assertTrue(t, df.Equals(Money{}.Dollar(5)))
+	assertFalse(t, df.Equals(Money{}.Dollar(6)))
 	ff := Money{amount: 5, currency: "CHF"}
 	assertTrue(t, ff.Equals(Money{amount: 5, currency: "CHF"}))
 	assertFalse(t, ff.Equals(Money{amount: 6, currency: "CHF"}))
@@ -59,6 +59,6 @@ func TestFrancMultiplication(t *testing.T) {
 }
 
 func TestCurrency(t *testing.T) {
-	assertStringEquals(t, "USD", Money{amount: 5, currency: "USD"}.GetCurrency())
+	assertStringEquals(t, "USD", Money{}.Dollar(5).GetCurrency())
 	assertStringEquals(t, "CHF", Money{amount: 6, currency: "CHF"}.GetCurrency())
 }

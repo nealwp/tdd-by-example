@@ -4,6 +4,7 @@ type IMoney interface {
 	Equals(other IMoney) bool
 	GetAmount() int
 	GetCurrency() string
+	Times(mulitplier int) IMoney
 }
 
 type Money struct {
@@ -25,4 +26,8 @@ func (m Money) Equals(other IMoney) bool {
 
 func (m Money) Times(multiplier int) IMoney {
 	return Money{m.amount * multiplier, m.currency}
+}
+
+func (Money) Dollar(amount int) IMoney {
+	return Money{amount: amount, currency: "USD"}
 }
