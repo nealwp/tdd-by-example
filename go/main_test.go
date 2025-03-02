@@ -128,5 +128,4 @@ func TestSumTimes(t *testing.T) {
 	sum := Sum{fiveBucks, tenFrancs}.Times(2)
 	result := bank.Reduce(sum, "USD")
 	assertEquals(t, Money{}.Dollar(20), result)
-
 }

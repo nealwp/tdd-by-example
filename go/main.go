@@ -28,7 +28,7 @@ func (m Money) Times(multiplier int) Expression {
 }
 
 // operations return an expression
-func (m Money) Plus(addend Money) Expression {
+func (m Money) Plus(addend Expression) Expression {
 	return Sum{Augend: m, Addend: addend}
 }
 
