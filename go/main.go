@@ -26,7 +26,3 @@ func (b BaseMoney) Equals(other Money) bool {
 func (b BaseMoney) Times(multiplier int) Money {
 	return BaseMoney{b.amount * multiplier, b.currency}
 }
-
-type Dollar struct{ BaseMoney }
-
-type Franc struct{ BaseMoney }

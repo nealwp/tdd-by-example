@@ -36,29 +36,29 @@ func assertFalse(t *testing.T, r bool) {
 }
 
 func TestMultiplication(t *testing.T) {
-	five := Dollar{BaseMoney{amount: 5, currency: "USD"}}
-	assertEquals(t, Dollar{BaseMoney{amount: 10, currency: "USD"}}, five.Times(2))
-	assertEquals(t, Dollar{BaseMoney{amount: 15, currency: "USD"}}, five.Times(3))
+	five := BaseMoney{amount: 5, currency: "USD"}
+	assertEquals(t, BaseMoney{amount: 10, currency: "USD"}, five.Times(2))
+	assertEquals(t, BaseMoney{amount: 15, currency: "USD"}, five.Times(3))
 }
 
 func TestEquality(t *testing.T) {
-	df := Dollar{BaseMoney{amount: 5, currency: "USD"}}
-	assertTrue(t, df.Equals(Dollar{BaseMoney{amount: 5, currency: "USD"}}))
-	assertFalse(t, df.Equals(Dollar{BaseMoney{amount: 6, currency: "USD"}}))
-	ff := Franc{BaseMoney{amount: 5, currency: "CHF"}}
-	assertTrue(t, ff.Equals(Franc{BaseMoney{amount: 5, currency: "CHF"}}))
-	assertFalse(t, ff.Equals(Franc{BaseMoney{amount: 6, currency: "CHF"}}))
+	df := BaseMoney{amount: 5, currency: "USD"}
+	assertTrue(t, df.Equals(BaseMoney{amount: 5, currency: "USD"}))
+	assertFalse(t, df.Equals(BaseMoney{amount: 6, currency: "USD"}))
+	ff := BaseMoney{amount: 5, currency: "CHF"}
+	assertTrue(t, ff.Equals(BaseMoney{amount: 5, currency: "CHF"}))
+	assertFalse(t, ff.Equals(BaseMoney{amount: 6, currency: "CHF"}))
 
 	assertFalse(t, ff.Equals(df))
 }
 
 func TestFrancMultiplication(t *testing.T) {
-	five := Franc{BaseMoney{amount: 5, currency: "CHF"}}
-	assertEquals(t, Franc{BaseMoney{amount: 10, currency: "CHF"}}, five.Times(2))
-	assertEquals(t, Franc{BaseMoney{amount: 15, currency: "CHF"}}, five.Times(3))
+	five := BaseMoney{amount: 5, currency: "CHF"}
+	assertEquals(t, BaseMoney{amount: 10, currency: "CHF"}, five.Times(2))
+	assertEquals(t, BaseMoney{amount: 15, currency: "CHF"}, five.Times(3))
 }
 
 func TestCurrency(t *testing.T) {
-	assertStringEquals(t, "USD", Dollar{BaseMoney{amount: 5, currency: "USD"}}.GetCurrency())
-	assertStringEquals(t, "CHF", Franc{BaseMoney{amount: 6, currency: "CHF"}}.GetCurrency())
+	assertStringEquals(t, "USD", BaseMoney{amount: 5, currency: "USD"}.GetCurrency())
+	assertStringEquals(t, "CHF", BaseMoney{amount: 6, currency: "CHF"}.GetCurrency())
 }
