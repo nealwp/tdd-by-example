@@ -48,6 +48,8 @@ func TestEquality(t *testing.T) {
 	ff := Franc{BaseMoney{amount: 5, currency: "CHF"}}
 	assertTrue(t, ff.Equals(Franc{BaseMoney{amount: 5, currency: "CHF"}}))
 	assertFalse(t, ff.Equals(Franc{BaseMoney{amount: 6, currency: "CHF"}}))
+
+	assertFalse(t, ff.Equals(df))
 }
 
 func TestFrancMultiplication(t *testing.T) {

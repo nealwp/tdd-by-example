@@ -3,6 +3,7 @@ package main
 type Money interface {
 	Equals(other Money) bool
 	GetAmount() int
+	GetCurrency() string
 }
 
 type BaseMoney struct {
@@ -19,7 +20,7 @@ func (b BaseMoney) GetCurrency() string {
 }
 
 func (b BaseMoney) Equals(other Money) bool {
-	return b.amount == other.GetAmount()
+	return b.amount == other.GetAmount() && b.currency == other.GetCurrency()
 }
 
 func (b BaseMoney) Times(multiplier int) Money {
