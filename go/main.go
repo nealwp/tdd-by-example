@@ -72,11 +72,15 @@ func (b *Bank) Rate(from, to string) int {
 }
 
 type Sum struct {
-	Augend Money
-	Addend Money
+	Augend Expression
+	Addend Expression
 }
 
 func (s Sum) Reduce(bank *Bank, to string) Money {
 	amount := s.Augend.Reduce(bank, to).amount + s.Addend.Reduce(bank, to).amount
 	return Money{amount: amount, currency: to}
+}
+
+func (s Sum) Plus(addend Expression) Expression {
+	return Sum{Augend: s, Addend: addend}
 }
