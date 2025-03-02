@@ -45,6 +45,12 @@ func (m Money) Reduce(bank *Bank, to string) Money {
 }
 
 type Bank struct {
+	rates map[pair]int
+}
+
+type pair struct {
+	from string
+	to   string
 }
 
 func (b *Bank) Reduce(source Expression, to string) Money {
@@ -52,14 +58,17 @@ func (b *Bank) Reduce(source Expression, to string) Money {
 }
 
 func (b *Bank) AddRate(from, to string, rate int) {
+	if b.rates == nil {
+		b.rates = make(map[pair]int)
+	}
+	b.rates[pair{from, to}] = rate
 }
 
 func (b *Bank) Rate(from, to string) int {
-	if from == "CHF" && to == "USD" {
-		return 2
-	} else {
+	if from == to {
 		return 1
 	}
+	return b.rates[pair{from, to}]
 }
 
 type Sum struct {
