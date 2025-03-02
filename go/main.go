@@ -3,6 +3,7 @@ package main
 // any expression has a reduce method
 type Expression interface {
 	Reduce(bank *Bank, to string) Money
+	Times(multiplier int) Expression
 }
 
 type Money struct {
@@ -22,7 +23,7 @@ func (m Money) Equals(other Money) bool {
 	return m.amount == other.GetAmount() && m.currency == other.GetCurrency()
 }
 
-func (m Money) Times(multiplier int) Money {
+func (m Money) Times(multiplier int) Expression {
 	return Money{m.amount * multiplier, m.currency}
 }
 
@@ -83,4 +84,8 @@ func (s Sum) Reduce(bank *Bank, to string) Money {
 
 func (s Sum) Plus(addend Expression) Expression {
 	return Sum{Augend: s, Addend: addend}
+}
+
+func (s Sum) Times(multiplier int) Expression {
+	return Sum{s.Augend.Times(multiplier), s.Addend.Times(multiplier)}
 }
