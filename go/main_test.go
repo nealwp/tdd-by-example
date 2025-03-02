@@ -64,3 +64,9 @@ func TestCurrency(t *testing.T) {
 	assertStringEquals(t, "USD", Money{}.Dollar(5).GetCurrency())
 	assertStringEquals(t, "CHF", Money{}.Franc(6).GetCurrency())
 }
+
+func TestSimpleAddition(t *testing.T) {
+	five := Money{}.Dollar(5)
+	sum := five.Plus(Money{}.Dollar(5))
+	assertEquals(t, Money{}.Dollar(10), sum)
+}
