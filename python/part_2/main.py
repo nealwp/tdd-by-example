@@ -13,15 +13,16 @@ class TestCase:
 
 class WasRun(TestCase):
     def __init__(self, name: str):
-        self.was_run = False
+        self.setup()
         TestCase.__init__(self, name=name)
 
-    def test_method(self):
-        pass
-
     def setup(self):
+        self.was_run = False
+        self.log = "setup "
+
+    def test_method(self):
         self.was_run = True
-        self.was_setup = True
+        self.log = self.log + "test_method "
 
 
 class TestCaseTest(TestCase):
@@ -30,7 +31,7 @@ class TestCaseTest(TestCase):
 
     def test_setup(self):
         self.test.run()
-        assert self.test.was_setup
+        assert "setup test_method " == self.test.log
 
     def test_running(self):
         self.test.run()
