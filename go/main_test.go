@@ -2,23 +2,24 @@ package main
 
 import "testing"
 
-type Comparable[T any] interface {
-	Equals(obj T) bool
+type Comparable interface {
+	Equals(obj interface{}) bool
 	GetAmount() int
 }
 
-func assertEquals[T Comparable[T]](t *testing.T, expected Comparable[T], got T) {
+func assertEquals(t *testing.T, expected interface{}, got interface{}) {
 	t.Helper()
-	if !expected.Equals(got) {
-		t.Errorf("expected: %v, got: %v", expected, got)
+	switch e := expected.(type) {
+	case int, string:
+		if e != got {
+			t.Errorf("expected: %v, got: %v", e, got)
+		}
+	case Comparable:
+		if !e.Equals(got) {
+			t.Errorf("expected: %v, got: %v", e, got)
+		}
 	}
-}
 
-func assertStringEquals[T string](t *testing.T, expected, got T) {
-	t.Helper()
-	if expected != got {
-		t.Errorf("expected: %v, got: %v", expected, got)
-	}
 }
 
 func assertTrue(t *testing.T, r bool) {
@@ -61,8 +62,8 @@ func TestFrancMultiplication(t *testing.T) {
 }
 
 func TestCurrency(t *testing.T) {
-	assertStringEquals(t, "USD", Money{}.Dollar(5).GetCurrency())
-	assertStringEquals(t, "CHF", Money{}.Franc(6).GetCurrency())
+	assertEquals(t, "USD", Money{}.Dollar(5).GetCurrency())
+	assertEquals(t, "CHF", Money{}.Franc(6).GetCurrency())
 }
 
 func TestSimpleAddition(t *testing.T) {
@@ -85,6 +86,12 @@ func TestReduceMoney(t *testing.T) {
 	bank := Bank{}
 	result := bank.Reduce(Money{}.Dollar(1), "USD")
 	assertEquals(t, Money{}.Dollar(1), result)
+}
+
+func TestIdentityRate(t *testing.T) {
+	bank := Bank{}
+	result := bank.Rate("USD", "USD")
+	assertEquals(t, 1, result)
 }
 
 func TestReduceMoneyDifferentCurrency(t *testing.T) {
