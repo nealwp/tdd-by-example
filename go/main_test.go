@@ -1,11 +1,9 @@
 package main
 
-import "testing"
-
-type Comparable interface {
-	Equals(obj interface{}) bool
-	GetAmount() int
-}
+import (
+	"reflect"
+	"testing"
+)
 
 func assertEquals(t *testing.T, expected interface{}, got interface{}) {
 	t.Helper()
@@ -14,10 +12,12 @@ func assertEquals(t *testing.T, expected interface{}, got interface{}) {
 		if e != got {
 			t.Errorf("expected: %v, got: %v", e, got)
 		}
-	case Comparable:
-		if !e.Equals(got) {
+	case Money:
+		if !e.Equals(got.(Money)) {
 			t.Errorf("expected: %v, got: %v", e, got)
 		}
+	default:
+		t.Errorf("no equality case defined for type: %v", reflect.TypeOf(e).String())
 	}
 
 }
@@ -99,4 +99,13 @@ func TestReduceMoneyDifferentCurrency(t *testing.T) {
 	bank.AddRate("CHF", "USD", 2)
 	result := bank.Reduce(Money{}.Franc(2), "USD")
 	assertEquals(t, Money{}.Dollar(1), result)
+}
+
+func TestMixedAddition(t *testing.T) {
+	fiveBucks := Money{}.Dollar(5)
+	tenFrancs := Money{}.Franc(10)
+	bank := Bank{}
+	bank.AddRate("CHF", "USD", 2)
+	result := bank.Reduce(fiveBucks.Plus(tenFrancs), "USD")
+	assertEquals(t, Money{}.Dollar(10), result)
 }
