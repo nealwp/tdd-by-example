@@ -11,18 +11,18 @@ type Money struct {
 	currency string
 }
 
-func (b Money) GetAmount() int {
-	return b.amount
+func (m Money) GetAmount() int {
+	return m.amount
 }
 
-func (b Money) GetCurrency() string {
-	return b.currency
+func (m Money) GetCurrency() string {
+	return m.currency
 }
 
-func (b Money) Equals(other IMoney) bool {
-	return b.amount == other.GetAmount() && b.currency == other.GetCurrency()
+func (m Money) Equals(other IMoney) bool {
+	return m.amount == other.GetAmount() && m.currency == other.GetCurrency()
 }
 
-func (b Money) Times(multiplier int) IMoney {
-	return Money{b.amount * multiplier, b.currency}
+func (m Money) Times(multiplier int) IMoney {
+	return Money{m.amount * multiplier, m.currency}
 }
