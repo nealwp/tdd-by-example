@@ -77,6 +77,6 @@ type Sum struct {
 }
 
 func (s Sum) Reduce(bank *Bank, to string) Money {
-	amount := s.Augend.amount + s.Addend.amount
+	amount := s.Augend.Reduce(bank, to).amount + s.Addend.Reduce(bank, to).amount
 	return Money{amount: amount, currency: to}
 }
