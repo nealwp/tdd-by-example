@@ -31,3 +31,7 @@ func (m Money) Times(multiplier int) IMoney {
 func (Money) Dollar(amount int) IMoney {
 	return Money{amount: amount, currency: "USD"}
 }
+
+func (Money) Franc(amount int) IMoney {
+	return Money{amount: amount, currency: "CHF"}
+}
