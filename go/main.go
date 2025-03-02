@@ -1,11 +1,8 @@
 package main
 
-type IMoney interface {
-	Equals(other IMoney) bool
-	GetAmount() int
-	GetCurrency() string
-	Times(mulitplier int) IMoney
-	Plus(addend Money) IMoney
+// any expression has a reduce method
+type Expression interface {
+	Reduce(bank *Bank, to string) Money
 }
 
 type Money struct {
@@ -29,8 +26,9 @@ func (m Money) Times(multiplier int) Money {
 	return Money{m.amount * multiplier, m.currency}
 }
 
-func (m Money) Plus(addend Money) Money {
-	return Money{m.amount + addend.amount, m.currency}
+// operations return an expression
+func (m Money) Plus(addend Money) Expression {
+	return Sum{Augend: m, Addend: addend}
 }
 
 func (Money) Dollar(amount int) Money {
@@ -41,9 +39,23 @@ func (Money) Franc(amount int) Money {
 	return Money{amount: amount, currency: "CHF"}
 }
 
+func (m Money) Reduce(bank *Bank, to string) Money {
+	return Money{}.Dollar(10)
+}
+
 type Bank struct {
 }
 
-func (Bank) Reduce(source Money, to string) Money {
+func (Bank) Reduce(source Expression, to string) Money {
 	return Money{}.Dollar(10)
+}
+
+type Sum struct {
+	Augend Money
+	Addend Money
+}
+
+func (s Sum) Reduce(bank *Bank, to string) Money {
+	amount := s.Augend.amount + s.Addend.amount
+	return Money{amount: amount, currency: to}
 }
