@@ -40,12 +40,7 @@ func (Money) Franc(amount int) Money {
 }
 
 func (m Money) Reduce(bank *Bank, to string) Money {
-	var rate int
-	if m.currency == "CHF" && to == "USD" {
-		rate = 2
-	} else {
-		rate = 1
-	}
+	rate := bank.Rate(m.currency, to)
 	return Money{amount: m.amount / rate, currency: to}
 }
 
@@ -57,6 +52,14 @@ func (b *Bank) Reduce(source Expression, to string) Money {
 }
 
 func (b *Bank) AddRate(from, to string, rate int) {
+}
+
+func (b *Bank) Rate(from, to string) int {
+	if from == "CHF" && to == "USD" {
+		return 2
+	} else {
+		return 1
+	}
 }
 
 type Sum struct {
